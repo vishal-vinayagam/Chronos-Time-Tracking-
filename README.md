@@ -1,7 +1,7 @@
 # ⏱️ Chronos Time Tracker
 
-[![Live Demo](https://img.shields.io/badge/Live_Demo-Open_App-blue?style=for-the-badge&logo=google-chrome)](https://vishal-vinayagam.github.io/Chronos-Time-Tracking/)
-[![Start Tracking](https://img.shields.io/badge/Start_Tracking_Now-Click_Here-10B981?style=for-the-badge&logo=clockify)](https://vishal-vinayagam.github.io/Chronos-Time-Tracking/)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Open_App-blue?style=for-the-badge&logo=google-chrome)](https://vishal-vinayagam.github.io/Chronos-Time-Tracking-/)
+[![Start Tracking](https://img.shields.io/badge/Start_Tracking_Now-Click_Here-10B981?style=for-the-badge&logo=clockify)](https://vishal-vinayagam.github.io/Chronos-Time-Tracking-/)
 
 A **clean, modern, browser-based time tracking application**.  
 Chronos helps you **track work hours, manage tasks, and export reports** — all **without login** and **without servers**.
@@ -44,7 +44,7 @@ Chronos helps you **track work hours, manage tasks, and export reports** — all
 ### 🌐 Use Online (Recommended)
 Click here and start immediately:
 
-👉 **https://vishal-vinayagam.github.io/Chronos-Time-Tracking/**
+👉 **https://vishal-vinayagam.github.io/Chronos-Time-Tracking-/**
 
 No installation. No signup. Just open and use.
 
