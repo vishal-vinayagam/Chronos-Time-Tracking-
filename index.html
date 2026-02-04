@@ -2,217 +2,322 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TimeSheet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Chronos - Time Tracker</title>
+    <meta name="description" content="Track and manage your work hours with Chronos - The modern time tracking solution">
+    <meta name="theme-color" content="#ffffff">
+    
     <style>
-        /* Modern Premium White Theme */
+        /* Premium White Theme */
         :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
             --white: #ffffff;
-            --gray-50: #fafafa;
-            --gray-100: #f5f5f5;
-            --gray-200: #e5e5e5;
-            --gray-300: #d4d4d4;
-            --gray-400: #a3a3a3;
-            --gray-500: #737373;
-            --gray-600: #525252;
-            --gray-700: #404040;
-            --gray-800: #262626;
-            --gray-900: #171717;
-            --primary: #3b82f6;
-            --primary-hover: #2563eb;
-            --radius-sm: 0.375rem;
-            --radius-md: 0.5rem;
-            --radius-lg: 0.75rem;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-text-size-adjust: 100%;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--gray-50);
-            color: var(--gray-900);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--gray-50) 0%, var(--white) 100%);
+            color: var(--gray-800);
             line-height: 1.5;
-            position: relative;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        /* App Container */
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px;
+            display: none;
             min-height: 100vh;
         }
 
-        /* Popup Overlay - SHOWS FIRST */
-        .popup-overlay {
-            position: fixed;
+        /* Header */
+        .main-header {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-header::before {
+            content: '';
+            position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            background: var(--white);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 10000;
-            padding: 1rem;
-            animation: fadeIn 0.3s ease;
+            color: var(--primary);
+            font-size: 20px;
+            font-weight: 700;
+            box-shadow: var(--shadow-sm);
         }
 
-        .popup-container {
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            width: 100%;
-            max-width: 400px;
-            transform: translateY(0);
-            animation: slideUp 0.3s ease;
-        }
-
-        .popup-header {
-            padding: 1.5rem 1.5rem 1rem;
-            border-bottom: 1px solid var(--gray-200);
-        }
-
-        .popup-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: var(--gray-900);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .popup-body {
-            padding: 1.5rem;
-        }
-
-        .popup-input {
-            width: 100%;
-            padding: 0.875rem;
-            font-size: 1rem;
-            border: 1.5px solid var(--gray-300);
-            border-radius: var(--radius-md);
-            margin-bottom: 1rem;
-            transition: all 0.2s;
-        }
-
-        .popup-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        .popup-btn {
-            width: 100%;
-            padding: 0.875rem;
-            background: var(--primary);
-            color: var(--white);
-            border: none;
-            border-radius: var(--radius-md);
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .popup-btn:hover {
-            background: var(--primary-hover);
-        }
-
-        .popup-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .note-text {
-            font-size: 0.75rem;
-            color: var(--gray-500);
-            text-align: center;
-            margin-top: 1rem;
-            line-height: 1.4;
-        }
-
-        /* Timesheet Container - HIDDEN UNTIL NAME IS ENTERED */
-        .timesheet-container {
-            max-width: 1000px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-            display: none; /* Hidden until name is entered */
-        }
-
-        .header {
-            background: var(--white);
-            padding: 2rem;
-            border-radius: var(--radius-lg);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-        }
-
-        .header h1 {
-            font-size: 2rem;
+        .app-title h1 {
+            font-size: 24px;
             font-weight: 700;
             color: var(--gray-900);
-            margin-bottom: 0.5rem;
+            margin-bottom: 4px;
         }
 
-        .header p {
+        .app-title p {
             color: var(--gray-600);
-            font-size: 1rem;
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        /* Current Time Display */
+        .time-display {
+            background: var(--white);
+            color: var(--gray-700);
+            padding: 12px 20px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 200px;
+            justify-content: center;
+        }
+
+        .time-display span {
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+            font-size: 15px;
+            color: var(--gray-900);
+        }
+
+        /* User Info */
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-200);
+            flex-wrap: wrap;
+        }
+
+        .user-greeting {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 16px;
+            color: var(--gray-700);
+            flex: 1;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: var(--shadow-sm);
         }
 
         /* Stats Grid */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
         }
 
         .stat-card {
             background: var(--white);
-            padding: 1.5rem;
-            border-radius: var(--radius-md);
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-            text-align: center;
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-light);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
         }
 
         .stat-card .value {
-            font-size: 2rem;
-            font-weight: 700;
+            font-size: 32px;
+            font-weight: 800;
             color: var(--primary);
-            margin-bottom: 0.25rem;
+            line-height: 1;
+            margin-bottom: 8px;
         }
 
         .stat-card .label {
-            font-size: 0.875rem;
-            color: var(--gray-500);
+            font-size: 14px;
+            color: var(--gray-600);
             text-transform: uppercase;
             letter-spacing: 0.05em;
+            font-weight: 600;
         }
 
-        /* Timesheet Form */
-        .timesheet-form {
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--gray-300);
             background: var(--white);
-            padding: 2rem;
-            border-radius: var(--radius-lg);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
+            color: var(--gray-700);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            font-size: 18px;
         }
 
-        .form-title {
-            font-size: 1.25rem;
+        .icon-btn:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-400);
+            transform: scale(1.05);
+        }
+
+        /* Main Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        @media (min-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Form Section */
+        .form-section {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
+        }
+
+        .section-title {
+            font-size: 18px;
             font-weight: 600;
             color: var(--gray-900);
-            margin-bottom: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        /* Form Elements */
         .form-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1.5rem;
+            gap: 16px;
+            margin-bottom: 20px;
         }
 
         .form-group {
@@ -221,128 +326,337 @@
         }
 
         .form-label {
-            font-size: 0.875rem;
-            font-weight: 500;
+            font-size: 14px;
+            font-weight: 600;
             color: var(--gray-700);
-            margin-bottom: 0.5rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
-        .form-input, .form-select {
-            padding: 0.75rem;
-            border: 1px solid var(--gray-300);
+        .form-label.required::after {
+            content: '*';
+            color: var(--error);
+        }
+
+        .form-input, .form-select, .form-textarea {
+            padding: 12px;
+            border: 2px solid var(--gray-300);
             border-radius: var(--radius-md);
-            font-size: 1rem;
-            transition: border-color 0.2s;
+            font-size: 16px;
+            transition: all 0.2s;
             background: var(--white);
             color: var(--gray-900);
+            font-family: inherit;
+            -webkit-appearance: none;
+            appearance: none;
         }
 
-        .form-input:focus, .form-select:focus {
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
+        .form-textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        /* Buttons */
         .btn {
-            padding: 0.875rem 1.75rem;
-            font-size: 1rem;
-            font-weight: 500;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
             border-radius: var(--radius-md);
             border: none;
             cursor: pointer;
             transition: all 0.2s;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
         }
 
         .btn-primary {
             background: var(--primary);
-            color: var(--white);
+            color: white;
+            box-shadow: var(--shadow-md);
         }
 
         .btn-primary:hover {
-            background: var(--primary-hover);
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-lg);
         }
 
-        /* Entries Table */
-        .entries-container {
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--gray-700);
+            border: 2px solid var(--gray-300);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-400);
+        }
+
+        /* Entries Section */
+        .entries-section {
             background: var(--white);
             border-radius: var(--radius-lg);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            padding: 2rem;
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
+            overflow: hidden;
         }
 
+        .entries-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .entries-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* Table */
         .table-container {
             overflow-x: auto;
-            margin-top: 1rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--gray-200);
+            -webkit-overflow-scrolling: touch;
         }
 
         .entries-table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 800px;
+            min-width: 600px;
         }
 
         .entries-table th {
             text-align: left;
-            padding: 1rem;
-            font-size: 0.875rem;
+            padding: 16px;
+            font-size: 12px;
             font-weight: 600;
             color: var(--gray-600);
+            background: var(--gray-50);
             border-bottom: 2px solid var(--gray-200);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
             white-space: nowrap;
         }
 
         .entries-table td {
-            padding: 1rem;
+            padding: 16px;
             border-bottom: 1px solid var(--gray-100);
             color: var(--gray-700);
+            vertical-align: middle;
+        }
+
+        .entries-table tr:last-child td {
+            border-bottom: none;
         }
 
         .entries-table tr:hover {
             background: var(--gray-50);
         }
 
+        /* Badges */
         .badge {
-            display: inline-block;
-            padding: 0.375rem 0.75rem;
-            font-size: 0.75rem;
-            font-weight: 500;
-            border-radius: 9999px;
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 20px;
+            gap: 4px;
+            white-space: nowrap;
         }
 
-        .badge-primary {
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--primary);
-        }
+        .badge-development { background: #eff6ff; color: #1d4ed8; }
+        .badge-design { background: #f5f3ff; color: #7c3aed; }
+        .badge-meeting { background: #fef3c7; color: #d97706; }
+        .badge-research { background: #ecfdf5; color: #047857; }
+        .badge-support { background: #fdf2f8; color: #be185d; }
+        .badge-other { background: #f8fafc; color: #475569; }
 
+        /* Action Buttons */
         .action-btn {
-            padding: 0.5rem 1rem;
-            font-size: 0.875rem;
+            padding: 6px 12px;
+            font-size: 12px;
             border-radius: var(--radius-sm);
-            border: 1px solid var(--gray-300);
-            background: var(--white);
-            color: var(--gray-700);
+            border: none;
             cursor: pointer;
             transition: all 0.2s;
-        }
-
-        .action-btn:hover {
-            background: var(--gray-50);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
 
         .action-btn.delete {
-            color: #dc2626;
-            border-color: #fecaca;
+            background: var(--error);
+            color: white;
         }
 
         .action-btn.delete:hover {
-            background: #fef2f2;
+            background: #dc2626;
         }
 
-        .footer {
+        /* Empty State */
+        .empty-state {
             text-align: center;
-            padding: 2rem;
+            padding: 48px 24px;
+            color: var(--gray-400);
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        .empty-state h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--gray-600);
+        }
+
+        .empty-state p {
+            font-size: 14px;
             color: var(--gray-500);
-            font-size: 0.875rem;
+        }
+
+        /* Install Prompt */
+        .install-prompt {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            box-shadow: var(--shadow-xl);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            z-index: 1000;
+            animation: slideInUp 0.3s ease;
+            border: 1px solid var(--gray-200);
+            display: none;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .install-prompt-content {
+            flex: 1;
+        }
+
+        .install-prompt h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 4px;
+        }
+
+        .install-prompt p {
+            font-size: 12px;
+            color: var(--gray-600);
+        }
+
+        .install-prompt .btn {
+            padding: 8px 16px;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .install-prompt .close-btn {
+            background: none;
+            border: none;
+            color: var(--gray-500);
+            cursor: pointer;
+            padding: 4px;
+            font-size: 20px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Popup Overlay */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .popup-container {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            width: 100%;
+            max-width: 400px;
+            animation: slideUp 0.3s ease;
+            overflow: hidden;
+        }
+
+        .popup-header {
+            padding: 24px 24px 16px;
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .popup-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--gray-900);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .popup-body {
+            padding: 24px;
+        }
+
+        .popup-footer {
+            padding: 16px 24px;
+            background: var(--gray-50);
+            border-top: 1px solid var(--gray-200);
+            text-align: center;
+        }
+
+        /* Footer */
+        .main-footer {
+            text-align: center;
+            padding: 32px 16px;
+            margin-top: 32px;
+            color: var(--gray-500);
+            font-size: 14px;
+            border-top: 1px solid var(--gray-200);
         }
 
         /* Animations */
@@ -362,57 +676,15 @@
             }
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .timesheet-container {
-                margin: 1rem auto;
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(100%);
             }
-            
-            .header {
-                padding: 1.5rem;
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
-            
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .popup-container {
-                margin: 0 1rem;
-            }
-        }
-
-        /* Loading State */
-        .loading {
-            opacity: 0.6;
-            pointer-events: none;
-        }
-
-        /* Notification */
-        .notification {
-            position: fixed;
-            bottom: 1rem;
-            right: 1rem;
-            background: var(--white);
-            border-radius: var(--radius-sm);
-            padding: 1rem 1.5rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            max-width: 350px;
-            z-index: 1000;
-            animation: slideInRight 0.3s ease;
-            border-left: 4px solid var(--primary);
         }
 
         @keyframes slideInRight {
@@ -425,41 +697,262 @@
                 opacity: 1;
             }
         }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Loading States */
+        .loading {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            max-width: 350px;
+            z-index: 1000;
+            animation: slideInRight 0.3s ease;
+            border-left: 4px solid var(--primary);
+        }
+
+        .notification.success {
+            border-left-color: var(--success);
+        }
+
+        .notification.warning {
+            border-left-color: var(--warning);
+        }
+
+        .notification.error {
+            border-left-color: var(--error);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .app-container {
+                padding: 12px;
+            }
+            
+            .main-header {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 16px;
+            }
+            
+            .time-display {
+                align-self: stretch;
+                justify-content: center;
+                min-width: auto;
+            }
+            
+            .user-info {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 16px;
+            }
+            
+            .quick-actions {
+                justify-content: center;
+            }
+            
+            .form-section,
+            .entries-section {
+                padding: 20px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            
+            .stat-card {
+                padding: 20px;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .table-container {
+                margin: 0 -12px;
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+            
+            .install-prompt {
+                left: 12px;
+                right: 12px;
+                bottom: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            
+            .app-title h1 {
+                font-size: 20px;
+            }
+            
+            .section-title {
+                font-size: 16px;
+            }
+            
+            .btn {
+                padding: 12px 16px;
+                font-size: 14px;
+                width: 100%;
+            }
+            
+            .entries-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .entries-actions {
+                justify-content: center;
+            }
+            
+            .notification {
+                left: 12px;
+                right: 12px;
+                max-width: none;
+            }
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-muted {
+            color: var(--gray-500);
+        }
+
+        .mt-1 { margin-top: 4px; }
+        .mt-2 { margin-top: 8px; }
+        .mt-3 { margin-top: 12px; }
+        .mt-4 { margin-top: 16px; }
+        .mt-5 { margin-top: 20px; }
+
+        .mb-1 { margin-bottom: 4px; }
+        .mb-2 { margin-bottom: 8px; }
+        .mb-3 { margin-bottom: 12px; }
+        .mb-4 { margin-bottom: 16px; }
+        .mb-5 { margin-bottom: 20px; }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--gray-100);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gray-400);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gray-500);
+        }
     </style>
 </head>
 <body>
-    <!-- Name Popup - SHOWS FIRST -->
+    <!-- Name Popup -->
     <div id="popupOverlay" class="popup-overlay">
         <div class="popup-container">
             <div class="popup-header">
-                <h2 class="popup-title">Hey 👋 What should we call you?</h2>
+                <h2 class="popup-title">👋 Welcome to Chronos</h2>
             </div>
             <div class="popup-body">
+                <p class="text-muted mb-4">Please enter your name to get started</p>
                 <input type="text" 
                        id="userNameInput" 
-                       class="popup-input" 
+                       class="form-input" 
                        placeholder="Enter your name" 
-                       maxlength="50"
-                       autocomplete="off"
-                       autofocus>
-                <button id="submitNameBtn" class="popup-btn">
-                    <span id="btnText">Continue</span>
-                    <span id="btnLoader" style="display: none;">⏳</span>
+                       maxlength="30"
+                       autocomplete="off">
+                <button id="submitNameBtn" class="btn btn-primary mt-4" style="width: 100%;">
+                    <span id="btnText">Get Started</span>
+                    <span id="btnLoader" class="hidden">⏳</span>
                 </button>
-                <p class="note-text">
-                    We'll use this only to personalize your experience.
+            </div>
+            <div class="popup-footer">
+                <p class="text-muted" style="font-size: 12px;">
+                    Your data stays securely on your device
                 </p>
             </div>
         </div>
     </div>
 
-    <!-- Main App - HIDDEN UNTIL NAME IS ENTERED -->
-    <div id="timesheetContainer" class="timesheet-container">
+    <!-- Main App -->
+    <div id="appContainer" class="app-container">
         <!-- Header -->
-        <div class="header">
-            <h1 id="welcomeTitle">TimeSheet Pro</h1>
-            <p>Track and manage your work hours efficiently</p>
-        </div>
+        <header class="main-header">
+            <div class="header-content">
+                <div class="logo-container">
+                    <div class="logo">C</div>
+                    <div class="app-title">
+                        <h1>Chronos</h1>
+                        <p>Smart Time Tracking</p>
+                    </div>
+                </div>
+                
+                <div class="time-display">
+                    <span id="currentTime">--:--:--</span>
+                    <span id="currentDate">-- --- --</span>
+                </div>
+            </div>
+
+            <!-- User Info -->
+            <div class="user-info">
+                <div class="user-greeting">
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <span id="userGreeting">Welcome!</span>
+                </div>
+                
+                <div class="quick-actions">
+                    <button class="icon-btn" title="Export Data" onclick="exportData()">📥</button>
+                    <button class="icon-btn" title="Clear All" onclick="clearAllData()">🗑️</button>
+                    <button class="icon-btn" title="Change Name" onclick="changeUserName()">👤</button>
+                    <button class="icon-btn" title="Help" onclick="showHelp()">❓</button>
+                </div>
+            </div>
+        </header>
 
         <!-- Stats -->
         <div class="stats-grid">
@@ -481,96 +974,118 @@
             </div>
         </div>
 
-        <!-- Add Entry Form -->
-        <div class="timesheet-form">
-            <h2 class="form-title">Add New Entry</h2>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label class="form-label">Date</label>
-                    <input type="date" id="entryDate" class="form-input">
+        <!-- Main Content -->
+        <div class="content-grid">
+            <!-- Add Entry Form -->
+            <section class="form-section">
+                <h2 class="section-title">Log Time</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label required">📅 Date</label>
+                        <input type="date" id="entryDate" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label required">🏢 Project</label>
+                        <input type="text" id="entryProject" class="form-input" placeholder="Project name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label required">📝 Task</label>
+                        <input type="text" id="entryTask" class="form-input" placeholder="What did you work on?" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label required">⏱️ Hours</label>
+                        <input type="number" id="entryHours" class="form-input" placeholder="0.0" step="0.25" min="0.25" max="24" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label required">🏷️ Category</label>
+                        <select id="entryCategory" class="form-select" required>
+                            <option value="development">💻 Development</option>
+                            <option value="design">🎨 Design</option>
+                            <option value="meeting">🤝 Meeting</option>
+                            <option value="research">🔍 Research</option>
+                            <option value="support">🛠️ Support</option>
+                            <option value="other">📁 Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">📋 Description</label>
+                        <textarea id="entryDescription" class="form-textarea" placeholder="Additional details (optional)" rows="2"></textarea>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Project</label>
-                    <input type="text" id="entryProject" class="form-input" placeholder="Enter project name">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Task</label>
-                    <input type="text" id="entryTask" class="form-input" placeholder="What did you work on?">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Hours</label>
-                    <input type="number" id="entryHours" class="form-input" placeholder="0.0" step="0.5" min="0.5">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Category</label>
-                    <select id="entryCategory" class="form-select">
-                        <option value="development">Development</option>
-                        <option value="design">Design</option>
-                        <option value="meeting">Meeting</option>
-                        <option value="research">Research</option>
-                        <option value="support">Support</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
-            </div>
-            <button id="addEntryBtn" class="btn btn-primary">Add Entry</button>
-        </div>
+                <button id="addEntryBtn" class="btn btn-primary">
+                    <span>Add Time Entry</span>
+                    <span>➕</span>
+                </button>
+            </section>
 
-        <!-- Entries Table -->
-        <div class="entries-container">
-            <h2 class="form-title">Time Entries</h2>
-            <div class="table-container">
-                <table class="entries-table" id="entriesTable">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Project</th>
-                            <th>Task</th>
-                            <th>Hours</th>
-                            <th>Category</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="entriesBody">
-                        <!-- Entries will be added here -->
-                    </tbody>
-                </table>
-            </div>
-            <div id="emptyState" style="text-align: center; padding: 3rem; color: var(--gray-400); display: block;">
-                <p>No time entries yet. Add your first entry above.</p>
-            </div>
+            <!-- Time Entries -->
+            <section class="entries-section">
+                <div class="entries-header">
+                    <h2 class="section-title">Time Entries</h2>
+                    
+                </div>
+                
+                <div class="table-container">
+                    <table class="entries-table" id="entriesTable">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Project</th>
+                                <th>Hours</th>
+                                <th>Category</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="entriesBody">
+                            <!-- Entries will be added here -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div id="emptyState" class="empty-state">
+                    <div class="empty-state-icon">⏰</div>
+                    <h3>No time entries yet</h3>
+                    <p>Start tracking your time by adding an entry above</p>
+                </div>
+            </section>
         </div>
 
         <!-- Footer -->
-        <div class="footer">
-            <p>TimeSheet © 2026 | Created by Vishal with ❤️</p>
+        <footer class="main-footer">
+            <p>© 2024 Chronos | Made with ❤️ for productive minds</p>
+            <p class="text-muted mt-2" style="font-size: 12px;">
+                Your data is stored locally in your browser
+            </p>
+        </footer>
+    </div>
+
+    <!-- Install Prompt (Simplified - No PWA errors) -->
+    <div id="installPrompt" class="install-prompt hidden">
+        <div class="install-prompt-content">
+            <h4>Install Chronos</h4>
+            <p>Add to home screen for quick access</p>
         </div>
+        <button class="btn btn-primary" onclick="showInstallInstructions()">Install</button>
+        <button class="close-btn" onclick="hideInstallPrompt()">×</button>
     </div>
 
     <script>
         // ============================================
-        // CONFIGURATION - UPDATE THIS!
-        // ============================================
-        const CONFIG = {
-            // ⚠️
-            GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzCgDiQYU9ngsnJzRohfbl4o9Tnbk0wNB2kbC5fjWorDzL8BVvHEq81A62CQYBfj2CQiw/exec',
-            
-            // ⚠️ 
-            SECRET_KEY: 'Tracker_0AvY5sSbny0bbxWa',
-            
-          
-            APP_NAME: 'timesheet_pro'
-        };
+        // INITIALIZATION
         // ============================================
 
         // DOM Elements
         const popupOverlay = document.getElementById('popupOverlay');
-        const timesheetContainer = document.getElementById('timesheetContainer');
+        const appContainer = document.getElementById('appContainer');
         const userNameInput = document.getElementById('userNameInput');
         const submitNameBtn = document.getElementById('submitNameBtn');
         const btnText = document.getElementById('btnText');
         const btnLoader = document.getElementById('btnLoader');
-        const welcomeTitle = document.getElementById('welcomeTitle');
+        const userGreeting = document.getElementById('userGreeting');
+        const userAvatar = document.getElementById('userAvatar');
+        const currentTime = document.getElementById('currentTime');
+        const currentDate = document.getElementById('currentDate');
+        const installPrompt = document.getElementById('installPrompt');
         
         // Timesheet elements
         const entriesBody = document.getElementById('entriesBody');
@@ -583,186 +1098,190 @@
         const entryTask = document.getElementById('entryTask');
         const entryHours = document.getElementById('entryHours');
         const entryCategory = document.getElementById('entryCategory');
+        const entryDescription = document.getElementById('entryDescription');
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
+        // State
+        let userName = '';
+        let deferredPrompt = null;
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', initApp);
+
+        function initApp() {
             // Set today's date as default
             const today = new Date().toISOString().split('T')[0];
-            if (entryDate) entryDate.value = today;
+            entryDate.value = today;
             
-            // Check if user already entered name
-            const savedName = localStorage.getItem('timesheet_user_name');
-            const guestId = localStorage.getItem('timesheet_guest_id');
+            // Check for existing user
+            userName = localStorage.getItem('chronos_user_name');
             
-            // Generate guest ID if not exists
-            if (!guestId) {
-                localStorage.setItem('timesheet_guest_id', generateGuestId());
-            }
-            
-            if (savedName) {
-                // User already entered name - show timesheet
-                showTimesheet(savedName);
+            if (userName) {
+                // Show main app
+                showApp(userName);
             } else {
-                // Show popup to ask for name
+                // Show name popup
                 showPopup();
             }
             
             // Setup event listeners
             setupEventListeners();
-        });
+            
+            // Start clock
+            updateClock();
+            setInterval(updateClock, 1000);
+            
+            // Check if app can be installed
+            checkInstallability();
+        }
 
         // ============================================
-        // NAME POPUP FUNCTIONS
+        // CLOCK FUNCTIONS
+        // ============================================
+
+        function updateClock() {
+            const now = new Date();
+            
+            // Update time
+            if (currentTime) {
+                currentTime.textContent = now.toLocaleTimeString([], { 
+                    hour: '2-digit', 
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+            }
+            
+            // Update date
+            if (currentDate) {
+                currentDate.textContent = now.toLocaleDateString('en-US', {
+                    weekday: 'short',
+                    month: 'short',
+                    day: 'numeric'
+                });
+            }
+        }
+
+        // ============================================
+        // USER FUNCTIONS
         // ============================================
 
         function showPopup() {
             popupOverlay.style.display = 'flex';
-            userNameInput.focus();
+            // Set focus after a small delay to avoid autofocus error
+            setTimeout(() => userNameInput.focus(), 100);
         }
 
         function hidePopup() {
             popupOverlay.style.display = 'none';
         }
 
-        function showTimesheet(name) {
+        function showApp(name) {
             hidePopup();
-            timesheetContainer.style.display = 'block';
-            updateWelcomeMessage(name);
+            appContainer.style.display = 'block';
+            updateUserGreeting(name);
+            updateUserAvatar(name);
             loadEntries();
             updateStats();
         }
 
-        function generateGuestId() {
-            return 'guest_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-        }
-
-        async function saveUserName() {
+        function saveUserName() {
             const name = userNameInput.value.trim();
             
             if (!name) {
-                userNameInput.focus();
                 showNotification('Please enter your name', 'warning');
+                userNameInput.focus();
                 return;
             }
 
-            try {
-                // Show loading state
-                btnText.style.display = 'none';
-                btnLoader.style.display = 'inline';
-                submitNameBtn.disabled = true;
+            // Show loading state
+            btnText.classList.add('hidden');
+            btnLoader.classList.remove('hidden');
+            submitNameBtn.disabled = true;
+            
+            // Save name locally
+            localStorage.setItem('chronos_user_name', name);
+            userName = name;
+            
+            // Show app after a brief delay
+            setTimeout(() => {
+                showApp(name);
+                showNotification(`Welcome to Chronos, ${name}!`, 'success');
                 
-                // Get or create guest ID
-                let guestId = localStorage.getItem('timesheet_guest_id');
-                if (!guestId) {
-                    guestId = generateGuestId();
-                    localStorage.setItem('timesheet_guest_id', guestId);
-                }
-                
-                // Prepare data for Google Sheets
-                const userData = {
-                    secret_key: CONFIG.SECRET_KEY,
-                    app_name: CONFIG.APP_NAME,
-                    uid: guestId,
-                    name: name,
-                    page: window.location.pathname,
-                    time: new Date().toISOString(),
-                    device: navigator.userAgent,
-                    screen_size: `${window.screen.width}x${window.screen.height}`,
-                    language: navigator.language,
-                    referrer: document.referrer || 'Direct'
-                };
-                
-                // Send to Google Apps Script
-                const success = await sendToGoogleSheets(userData);
-                
-                if (success) {
-                    // Save name locally
-                    localStorage.setItem('timesheet_user_name', name);
-                    
-                    // Show timesheet
-                    showTimesheet(name);
-                    
-                    showNotification(`Welcome, ${name}!`, 'success');
-                } else {
-                    // Still save locally even if API fails
-                    localStorage.setItem('timesheet_user_name', name);
-                    showTimesheet(name);
-                    showNotification('Welcome! (Data save failed, but you can still use the app)', 'warning');
-                }
-                
-            } catch (error) {
-                console.error('Error saving name:', error);
-                
-                // Save locally anyway
-                localStorage.setItem('timesheet_user_name', name);
-                showTimesheet(name);
-                
-                showNotification('Welcome! (Offline mode)', 'info');
-                
-            } finally {
                 // Reset button state
-                btnText.style.display = 'inline';
-                btnLoader.style.display = 'none';
+                btnText.classList.remove('hidden');
+                btnLoader.classList.add('hidden');
                 submitNameBtn.disabled = false;
+            }, 300);
+        }
+
+        function updateUserGreeting(name) {
+            if (userGreeting) {
+                const hour = new Date().getHours();
+                let greeting = '';
+                
+                if (hour < 12) greeting = 'Good morning';
+                else if (hour < 18) greeting = 'Good afternoon';
+                else greeting = 'Good evening';
+                
+                userGreeting.textContent = `${greeting}, ${name}!`;
             }
         }
 
-        async function sendToGoogleSheets(data) {
-            try {
-                console.log('Sending to Google Sheets:', data);
+        function updateUserAvatar(name) {
+            if (userAvatar) {
+                // Get initials from name
+                const initials = name
+                    .split(' ')
+                    .map(word => word[0])
+                    .join('')
+                    .toUpperCase()
+                    .substring(0, 2);
                 
-                // Use fetch with POST
-                const response = await fetch(CONFIG.GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors', // Required for Google Apps Script
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
-                
-                // Note: With 'no-cors' we can't read response, but data is sent
-                console.log('Data sent to Google Sheets');
-                return true;
-                
-            } catch (error) {
-                console.error('Error sending to Google Sheets:', error);
-                return false;
+                userAvatar.textContent = initials;
             }
         }
 
-        function updateWelcomeMessage(name) {
-            if (welcomeTitle) {
-                welcomeTitle.innerHTML = `Welcome, ${name}! <span style="font-size: 0.875em;">👋</span>`;
+        function changeUserName() {
+            if (confirm('Do you want to change your name?')) {
+                localStorage.removeItem('chronos_user_name');
+                appContainer.style.display = 'none';
+                userNameInput.value = '';
+                showPopup();
             }
         }
 
         // ============================================
-        // TIMESHEET FUNCTIONS
+        // EVENT LISTENERS
         // ============================================
 
         function setupEventListeners() {
             // Name popup
             submitNameBtn.addEventListener('click', saveUserName);
-            userNameInput.addEventListener('keypress', function(e) {
+            userNameInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') saveUserName();
             });
 
             // Timesheet form
-            if (addEntryBtn) {
-                addEntryBtn.addEventListener('click', addTimeEntry);
-            }
+            addEntryBtn.addEventListener('click', addTimeEntry);
             
             // Allow Enter key in form fields
-            const formInputs = [entryProject, entryTask, entryHours];
-            formInputs.forEach(input => {
-                if (input) {
-                    input.addEventListener('keypress', function(e) {
-                        if (e.key === 'Enter') addTimeEntry();
-                    });
-                }
+            [entryProject, entryTask, entryHours].forEach(input => {
+                input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') addTimeEntry();
+                });
             });
+            
+            // Auto-save draft
+            [entryProject, entryTask, entryHours, entryCategory, entryDescription].forEach(input => {
+                input.addEventListener('input', autoSaveDraft);
+            });
+            
+            // Load draft on page load
+            loadDraft();
         }
+
+        // ============================================
+        // TIMESHEET FUNCTIONS
+        // ============================================
 
         function addTimeEntry() {
             // Get form values
@@ -771,63 +1290,64 @@
             const task = entryTask.value.trim();
             const hours = parseFloat(entryHours.value);
             const category = entryCategory.value;
+            const description = entryDescription.value.trim();
 
             // Validation
-            if (!date || !project || !task || !hours || hours <= 0) {
-                showNotification('Please fill in all fields with valid values', 'warning');
+            if (!date || !project || !task || !hours || hours <= 0 || hours > 24) {
+                showNotification('Please fill in all required fields with valid values', 'warning');
                 return;
             }
 
             // Create entry object
             const entry = {
-                id: Date.now(),
+                id: Date.now() + Math.random().toString(36).substr(2, 9),
                 date: date,
                 project: project,
                 task: task,
                 hours: hours,
                 category: category,
+                description: description,
                 createdAt: new Date().toISOString()
             };
 
-            // Save entry locally
+            // Save entry
             saveEntry(entry);
             
-            // Clear form (except date)
+            // Clear form
             entryProject.value = '';
             entryTask.value = '';
             entryHours.value = '';
+            entryDescription.value = '';
             
-            // Refresh display
+            // Clear draft
+            clearDraft();
+            
+            // Refresh UI
             loadEntries();
             updateStats();
             
-            // Focus on project field for next entry
+            // Focus on project field
             entryProject.focus();
             
-            showNotification('Entry added successfully!', 'success');
+            showNotification('Time entry added successfully!', 'success');
         }
 
         function saveEntry(entry) {
-            // Get existing entries
-            let entries = JSON.parse(localStorage.getItem('timesheet_entries') || '[]');
-            
-            // Add new entry
+            let entries = JSON.parse(localStorage.getItem('chronos_entries') || '[]');
             entries.push(entry);
-            
-            // Save back to localStorage
-            localStorage.setItem('timesheet_entries', JSON.stringify(entries));
+            localStorage.setItem('chronos_entries', JSON.stringify(entries));
         }
 
         function loadEntries() {
-            const entries = JSON.parse(localStorage.getItem('timesheet_entries') || '[]');
+            const entries = JSON.parse(localStorage.getItem('chronos_entries') || '[]');
             
             if (entries.length === 0) {
-                if (entriesBody) entriesBody.innerHTML = '';
-                if (emptyState) emptyState.style.display = 'block';
+                entriesBody.innerHTML = '';
+                emptyState.style.display = 'block';
                 return;
             }
             
-            if (emptyState) emptyState.style.display = 'none';
+            emptyState.style.display = 'none';
             
             // Sort by date (newest first)
             entries.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -835,33 +1355,55 @@
             // Generate table rows
             const rows = entries.map(entry => `
                 <tr data-id="${entry.id}">
-                    <td>${formatDate(entry.date)}</td>
-                    <td>${entry.project}</td>
-                    <td>${entry.task}</td>
-                    <td><strong>${entry.hours}</strong></td>
-                    <td><span class="badge badge-primary">${entry.category}</span></td>
                     <td>
-                        <button class="action-btn delete" onclick="deleteEntry(${entry.id})">
-                            Delete
+                        <div style="font-weight: 600; margin-bottom: 4px;">${formatDate(entry.date)}</div>
+                        <div style="font-size: 13px; color: var(--gray-500);">${entry.task}</div>
+                        ${entry.description ? `<div style="font-size: 12px; color: var(--gray-400); margin-top: 4px;">${entry.description}</div>` : ''}
+                    </td>
+                    <td style="font-weight: 600;">${entry.project}</td>
+                    <td>
+                        <div style="font-size: 18px; font-weight: 700; color: var(--primary);">${entry.hours}</div>
+                        <div style="font-size: 12px; color: var(--gray-500);">hours</div>
+                    </td>
+                    <td>
+                        <span class="badge badge-${entry.category}">
+                            ${getCategoryIcon(entry.category)} ${entry.category.charAt(0).toUpperCase() + entry.category.slice(1)}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="action-btn delete" onclick="deleteEntry('${entry.id}')" title="Delete entry">
+                            🗑️ Delete
                         </button>
                     </td>
                 </tr>
             `).join('');
             
-            if (entriesBody) entriesBody.innerHTML = rows;
+            entriesBody.innerHTML = rows;
+        }
+
+        function getCategoryIcon(category) {
+            const icons = {
+                development: '💻',
+                design: '🎨',
+                meeting: '🤝',
+                research: '🔍',
+                support: '🛠️',
+                other: '📁'
+            };
+            return icons[category] || '📁';
         }
 
         function deleteEntry(id) {
-            if (!confirm('Are you sure you want to delete this entry?')) return;
+            if (!confirm('Are you sure you want to delete this time entry?')) return;
             
-            let entries = JSON.parse(localStorage.getItem('timesheet_entries') || '[]');
+            let entries = JSON.parse(localStorage.getItem('chronos_entries') || '[]');
             entries = entries.filter(entry => entry.id !== id);
-            localStorage.setItem('timesheet_entries', JSON.stringify(entries));
+            localStorage.setItem('chronos_entries', JSON.stringify(entries));
             
             loadEntries();
             updateStats();
             
-            showNotification('Entry deleted', 'success');
+            showNotification('Time entry deleted', 'success');
         }
 
         function formatDate(dateString) {
@@ -878,39 +1420,157 @@
             
             return date.toLocaleDateString('en-US', { 
                 month: 'short', 
-                day: 'numeric',
-                year: 'numeric'
+                day: 'numeric'
             });
         }
 
         function updateStats() {
-            const entries = JSON.parse(localStorage.getItem('timesheet_entries') || '[]');
+            const entries = JSON.parse(localStorage.getItem('chronos_entries') || '[]');
             
-            // Calculate total hours
+            // Total hours
             const totalHours = entries.reduce((sum, entry) => sum + entry.hours, 0);
             
-            // Calculate weekly hours (last 7 days)
+            // Weekly hours
             const oneWeekAgo = new Date();
             oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
             const weeklyHours = entries
                 .filter(entry => new Date(entry.date) >= oneWeekAgo)
                 .reduce((sum, entry) => sum + entry.hours, 0);
             
-            // Calculate average hours per day
+            // Average hours per day
             const uniqueDays = new Set(entries.map(entry => entry.date)).size;
             const avgHours = uniqueDays > 0 ? totalHours / uniqueDays : 0;
             
             // Update UI
-            const totalHoursEl = document.getElementById('totalHours');
-            const totalEntriesEl = document.getElementById('totalEntries');
-            const weeklyHoursEl = document.getElementById('weeklyHours');
-            const avgHoursEl = document.getElementById('avgHours');
-            
-            if (totalHoursEl) totalHoursEl.textContent = totalHours.toFixed(1);
-            if (totalEntriesEl) totalEntriesEl.textContent = entries.length;
-            if (weeklyHoursEl) weeklyHoursEl.textContent = weeklyHours.toFixed(1);
-            if (avgHoursEl) avgHoursEl.textContent = avgHours.toFixed(1);
+            document.getElementById('totalHours').textContent = totalHours.toFixed(1);
+            document.getElementById('totalEntries').textContent = entries.length;
+            document.getElementById('weeklyHours').textContent = weeklyHours.toFixed(1);
+            document.getElementById('avgHours').textContent = avgHours.toFixed(1);
         }
+
+        // ============================================
+        // UTILITY FUNCTIONS
+        // ============================================
+
+        function autoSaveDraft() {
+            const draft = {
+                project: entryProject.value,
+                task: entryTask.value,
+                hours: entryHours.value,
+                category: entryCategory.value,
+                description: entryDescription.value,
+                savedAt: new Date().toISOString()
+            };
+            
+            localStorage.setItem('chronos_draft', JSON.stringify(draft));
+        }
+
+        function loadDraft() {
+            const draft = JSON.parse(localStorage.getItem('chronos_draft') || '{}');
+            
+            if (draft.project) entryProject.value = draft.project;
+            if (draft.task) entryTask.value = draft.task;
+            if (draft.hours) entryHours.value = draft.hours;
+            if (draft.category) entryCategory.value = draft.category;
+            if (draft.description) entryDescription.value = draft.description;
+        }
+
+        function clearDraft() {
+            localStorage.removeItem('chronos_draft');
+        }
+
+        function exportData() {
+            const entries = JSON.parse(localStorage.getItem('chronos_entries') || '[]');
+            
+            if (entries.length === 0) {
+                showNotification('No data to export', 'warning');
+                return;
+            }
+            
+            // Create CSV content
+            let csv = 'Date,Project,Task,Hours,Category,Description\n';
+            entries.forEach(entry => {
+                csv += `"${entry.date}","${entry.project}","${entry.task}",${entry.hours},"${entry.category}","${entry.description}"\n`;
+            });
+            
+            // Create blob and download
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `chronos-export-${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showNotification('Data exported successfully', 'success');
+        }
+
+        function clearAllData() {
+            if (!confirm('Are you sure you want to clear all time entries? This action cannot be undone.')) {
+                return;
+            }
+            
+            localStorage.removeItem('chronos_entries');
+            loadEntries();
+            updateStats();
+            
+            showNotification('All data cleared', 'success');
+        }
+
+        function showHelp() {
+            showNotification('Need help? Check the documentation or contact support.', 'info');
+        }
+
+        // ============================================
+        // INSTALL PROMPT FUNCTIONS (No Service Worker Errors)
+        // ============================================
+
+        function checkInstallability() {
+            // Only show install prompt on mobile devices
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
+            if (isMobile && !window.matchMedia('(display-mode: standalone)').matches) {
+                // Check if app was already opened recently
+                const lastPrompt = localStorage.getItem('chronos_last_prompt');
+                const now = Date.now();
+                
+                if (!lastPrompt || now - parseInt(lastPrompt) > 7 * 24 * 60 * 60 * 1000) {
+                    // Show prompt after delay
+                    setTimeout(() => {
+                        installPrompt.classList.remove('hidden');
+                        localStorage.setItem('chronos_last_prompt', now.toString());
+                    }, 5000);
+                }
+            }
+        }
+
+        function showInstallInstructions() {
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            const isAndroid = /Android/.test(navigator.userAgent);
+            
+            let message = '';
+            
+            if (isIOS) {
+                message = 'To install Chronos:\n1. Tap the Share button\n2. Scroll down and tap "Add to Home Screen"\n3. Tap "Add" in the top right';
+            } else if (isAndroid) {
+                message = 'To install Chronos:\n1. Tap the menu button (⋮)\n2. Tap "Install app" or "Add to Home Screen"\n3. Follow the prompts to install';
+            } else {
+                message = 'This app can be installed on your device for easier access.';
+            }
+            
+            alert(message);
+            hideInstallPrompt();
+        }
+
+        function hideInstallPrompt() {
+            installPrompt.classList.add('hidden');
+        }
+
+        // ============================================
+        // NOTIFICATION SYSTEM
+        // ============================================
 
         function showNotification(message, type = 'info') {
             // Remove existing notification
@@ -919,19 +1579,10 @@
             
             // Create notification
             const notification = document.createElement('div');
-            notification.className = 'notification';
+            notification.className = `notification ${type}`;
             notification.innerHTML = `
-                <span>${message}</span>
+                <span style="font-weight: 500;">${message}</span>
             `;
-            
-            // Add color based on type
-            if (type === 'success') {
-                notification.style.borderLeftColor = '#10b981';
-            } else if (type === 'warning') {
-                notification.style.borderLeftColor = '#f59e0b';
-            } else if (type === 'error') {
-                notification.style.borderLeftColor = '#ef4444';
-            }
             
             document.body.appendChild(notification);
             
@@ -949,8 +1600,29 @@
             }, 3000);
         }
 
-        // Make deleteEntry available globally
+        // ============================================
+        // GLOBAL EXPORTS
+        // ============================================
+
         window.deleteEntry = deleteEntry;
+        window.exportData = exportData;
+        window.clearAllData = clearAllData;
+        window.changeUserName = changeUserName;
+        window.showHelp = showHelp;
+        window.showInstallInstructions = showInstallInstructions;
+        window.hideInstallPrompt = hideInstallPrompt;
+
+        // ============================================
+        // OFFLINE DETECTION
+        // ============================================
+
+        window.addEventListener('online', () => {
+            showNotification('You are back online', 'success');
+        });
+
+        window.addEventListener('offline', () => {
+            showNotification('You are offline. Data will be saved locally.', 'warning');
+        });
     </script>
 </body>
 </html>
