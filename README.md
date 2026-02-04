@@ -1,147 +1,97 @@
-Chronos Time Tracker ⏱️
-<div align="center">
-https://img.shields.io/badge/Live_Demo-Open_App-blue?style=for-the-badge&logo=google-chrome
+# ⏱️ Chronos Time Tracker
 
-A modern time tracking app that works entirely in your browser
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Open_App-blue?style=for-the-badge&logo=google-chrome)](https://vishal-vinayagam.github.io/Chronos-Time-Tracking/)
+[![Start Tracking](https://img.shields.io/badge/Start_Tracking_Now-Click_Here-10B981?style=for-the-badge&logo=clockify)](https://vishal-vinayagam.github.io/Chronos-Time-Tracking/)
 
-</div>
-✨ Features
-<div align="center">
-📋 Core Features
-Feature	Description
-✅ Easy Time Logging	Track by project, task, and category
-✅ Live Clock	Real-time date and time display
-✅ Statistics Dashboard	Visual insights into your hours
-✅ Local Storage	All data stays on your device
-✅ Export to CSV	Download your time logs
-✅ Mobile Friendly	Works perfectly on all devices
-✅ No Login Required	Simple and private
-</div>
-📊 Smart Categories
-<div align="center">
-Category	Description
-💻 Development	Coding tasks
-🎨 Design	Creative work
-🤝 Meeting	Discussions
-🔍 Research	Investigation
-🛠️ Support	Maintenance
-📁 Other	Miscellaneous
-</div>
-🚀 Quick Start
-<div align="center">
-Open in Browser
-https://img.shields.io/badge/Open_Chronos-Click_Here-2563EB?style=for-the-badge&logo=clockify
+A **clean, modern, browser-based time tracking application**.  
+Chronos helps you **track work hours, manage tasks, and export reports** — all **without login** and **without servers**.
 
-Run Locally
-bash
-git clone https://github.com/vishal-vinayagam/Chronos-Time-Tracking.git
-cd Chronos-Time-Tracking
-open index.html
-</div>
-📱 Mobile Installation
-<div align="center">
-Platform	Steps
-Android	1. Open in Chrome
+> ✅ Simple  
+> ✅ Private  
+> ✅ Fast  
+> ✅ Mobile-friendly  
+
+---
+
+## ✨ Features
+
+### 📋 Core Features
+- ✅ **Easy Time Logging** – Track time by project, task, and category  
+- ✅ **Live Clock** – Real-time date & time display  
+- ✅ **Statistics Dashboard** – Visual overview of your work hours  
+- ✅ **Local Storage** – Data stored safely in your browser  
+- ✅ **Export to CSV** – Download your time logs anytime  
+- ✅ **Mobile Friendly** – Works perfectly on phones & tablets  
+- ✅ **No Login Required** – 100% private & offline-friendly  
+
+---
+
+## 📊 Smart Categories
+
+| Category | Usage |
+|--------|------|
+| 💻 Development | Coding & programming |
+| 🎨 Design | UI / UX / creative work |
+| 🤝 Meeting | Discussions & calls |
+| 🔍 Research | Analysis & learning |
+| 🛠️ Support | Maintenance & fixes |
+| 📁 Other | Miscellaneous tasks |
+
+---
+
+## 🚀 Quick Start
+
+### 🌐 Use Online (Recommended)
+Click here and start immediately:
+
+👉 **https://vishal-vinayagam.github.io/Chronos-Time-Tracking/**
+
+No installation. No signup. Just open and use.
+
+---
+
+### 💻 Run Locally
+1. Clone or download the repository  
+2. Open `index.html` in any browser  
+3. Start tracking your time 🎯  
+
+---
+
+## 📱 Install as Mobile App
+
+### 🤖 Android
+1. Open in **Chrome**
 2. Tap menu (⋮)
-3. "Add to Home Screen"
-iOS	1. Open in Safari
-2. Tap share (📤)
-3. "Add to Home Screen"
-</div>
-🛠️ How to Use
-1. First Time Setup
-javascript
-// Enter your name
-// All data stored locally
-2. Add Time Entry
-javascript
-1. Date → Select date
-2. Project → Enter project name
-3. Task → Describe work done
-4. Hours → Enter time spent
-5. Category → Choose category
-6. Add → Save entry
-3. Manage Entries
-javascript
-View → See all time logs
-Delete → Remove entries
-Export → Download as CSV
-Clear → Reset all data
-🔧 Technical Details
-<div align="center">
-Built With
-https://img.shields.io/badge/HTML5-Clean_Markup-E34F26?style=flat-square&logo=html5
-https://img.shields.io/badge/CSS3-Modern_Styling-1572B6?style=flat-square&logo=css3
-https://img.shields.io/badge/JavaScript-Client_Logic-F7DF1E?style=flat-square&logo=javascript
-https://img.shields.io/badge/LocalStorage-Data_Persistence-FF6B6B?style=flat-square
+3. Select **Add to Home Screen**
+4. Done ✅
 
-Browser Support
-https://img.shields.io/badge/Chrome-%E2%9C%85-4285F4?style=flat-square&logo=google-chrome
-https://img.shields.io/badge/Firefox-%E2%9C%85-FF7139?style=flat-square&logo=firefox
-https://img.shields.io/badge/Safari-%E2%9C%85-000000?style=flat-square&logo=safari
-https://img.shields.io/badge/Edge-%E2%9C%85-0078D7?style=flat-square&logo=microsoft-edge
+### 🍎 iOS
+1. Open in **Safari**
+2. Tap **Share (📤)**
+3. Choose **Add to Home Screen**
+4. Tap **Add**
 
-</div>
-📊 Data Export
-csv
-Date,Project,Task,Hours,Category
-"2024-01-15","Website","Design",3.5,"design"
-"2024-01-15","Mobile App","Development",4.0,"development"
-💡 Best Practices
-<div align="center">
-Practice	Benefit
-Log time as you work	Accurate tracking
-Use descriptive names	Easy organization
-Review weekly stats	Productivity insights
-Export data regularly	Data backup
-</div>
-🔒 Privacy & Security
-<div align="center">
-Feature	Protection
-No Server	Data stays in browser
-No Tracking	Complete privacy
-Export Control	You decide when to share
-Clear Anytime	Full data control
-</div>
-🆘 Troubleshooting
-<div align="center">
-Issue	Solution
-Data not saving	Enable cookies/local storage
-Clock not updating	Refresh the page
-Can't export	Ensure entries exist
-</div>
-Clear Data:
+---
 
-Open Dev Tools (F12)
+## 🛠️ How to Use
 
-Application → Local Storage
+### First-Time Setup
+- Enter your name (stored locally)
+- Personalize your experience
 
-Remove "chronos_" entries
+### Add Time Entry
+- **Date** – Select working date  
+- **Project** – Enter project name  
+- **Task** – Describe your work  
+- **Hours** – Time spent  
+- **Category** – Choose from list  
+- Click **Add** to save
 
-Refresh page
+### Manage Entries
+- 👁️ **View** – See all time logs  
+- 🗑️ **Delete** – Remove entries  
+- 📤 **Export** – Download CSV  
+- 🔄 **Clear** – Reset all data  
 
-🤝 Contributing
-Fork the repository
-
-Create feature branch
-
-Make changes
-
-Submit pull request
-
-📄 License
-MIT License - Free to use, modify, and distribute.
-
-<div align="center">
-🚀 Start Tracking Now
-https://img.shields.io/badge/Start_Tracking_Now-Click_Here-10B981?style=for-the-badge
-
-Your productivity journey starts here! 🚀
-
-Made with ❤️ by Vishal Vinayagam
-Version 2.0 | January 2024
-
-https://img.shields.io/badge/GitHub-Repository-181717?style=flat-square&logo=github
-
-</div>
-Note: All data is stored locally in your browser. No server communication required.
+---
+Made with ❤️ by Vishal
